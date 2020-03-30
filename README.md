@@ -1,7 +1,7 @@
 # RedisProxy 
 [![CircleCI](https://circleci.com/gh/hunkeelin/springparse.svg?style=shield)](https://circleci.com/gh/hunkeelin/springparse)
 [![Go Report Card](https://goreportcard.com/badge/github.com/hunkeelin/springparse)](https://goreportcard.com/report/github.com/hunkeelin/springparse)
-[![GoDoc](https://godoc.org/github.com/hunkeelin/springparse/src/server?status.svg)](https://godoc.org/github.com/hunkeelin/springparse/src/server)
+[![GoDoc](https://godoc.org/github.com/hunkeelin/springparse/src?status.svg)](https://godoc.org/github.com/hunkeelin/springparse/src)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hunkeelin/springparse/master/LICENSE)
 
 
