@@ -2,6 +2,7 @@ package springparse
 
 import (
 	"io/ioutil"
+	"os"
 	"testing"
 )
 
@@ -12,10 +13,10 @@ func TestPrint(t *testing.T) {
 	}
 }
 func TestSpringparse(t *testing.T) {
-	if logDirectory == "" || tailBinary == "" {
+	if os.Getenv("LOG_DIRECTORY") == "" || os.Getenv("TAIL_BIN") == "" {
 		return
 	}
-	err := springParse()
+	err := SpringParse()
 	if err != nil {
 		t.Errorf(err.Error())
 	}
