@@ -9,7 +9,6 @@ func TestValidateOther(t *testing.T) {
 	logPrefix = "foo"
 	serviceRegex = "foo&bar,candy&bar"
 	logDirectory = "/var/log"
-	tailBinary = "/usr/bin/tail"
 	err := ValidateOtherEnv()
 	if err != nil {
 		t.Errorf(err.Error())

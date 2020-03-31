@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/hunkeelin/springparse/src"
+	"time"
 )
 
 func main() {
@@ -14,7 +15,13 @@ func main() {
 		panic(err)
 	}
 	springparse.ShowConfiguration()
-	go springparse.SpringParse()
+	r := springparse.New()
+	go func() {
+		for {
+			r.SpringParse()
+			time.Sleep(3 * time.Second)
+		}
+	}()
 	err = springparse.Server()
 	if err != nil {
 		panic(err)

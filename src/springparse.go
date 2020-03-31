@@ -2,69 +2,78 @@ package springparse
 
 import (
 	"bytes"
-	"fmt"
-	"github.com/fsnotify/fsnotify"
+	"github.com/papertrail/go-tail/follower"
 	log "github.com/sirupsen/logrus"
-	"os/exec"
+	"io"
+	"os"
+	"path/filepath"
 )
 
-// SpringParse This is the main program
-func SpringParse() error {
-	watcher, err := fsnotify.NewWatcher()
-	if err != nil {
-		return err
-	}
-	defer watcher.Close()
-
-	done := make(chan bool)
-
-	go func() {
-		for {
-			select {
-			// watch for events
-			case event := <-watcher.Events:
-				switch {
-				//case event.Op == fsnotify.Create:
-				//case event.Op == fsnotify.Remove:
-				case event.Op == fsnotify.Write:
-					result := shouldWatch(shouldWatchInput{
-						logFile: event.Name,
-					})
-					if result.watch {
-						acmd := exec.Command(tailBinary, "-n", "1", event.Name)
-						out, err := acmd.Output()
-						if err != nil {
-							putFailed.Inc()
-							log.Error(err.Error())
-							continue
-						}
-						out = bytes.Replace(out, []byte("\n"), []byte(""), -1)
-						err = sendElasticSearch(out)
-						if err != nil {
-							putFailed.Inc()
-							log.Error(err.Error())
-							continue
-						}
-						putSuccess.Inc()
-					}
-				}
-				// watch for errors
-			case err := <-watcher.Errors:
-				fmt.Println("ERROR", err)
-			}
-		}
-	}()
-
-	// out of the box fsnotify can watch a single file, or a single directory
-	if err := watcher.Add(logDirectory); err != nil {
-	}
-	<-done
-	return nil
+type Runner struct {
+	tailedFiles map[string]int
 }
 
-func reverseByteArray(s []byte) []byte {
-	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-		s[i], s[j] = s[j], s[i]
+func New() *Runner {
+	m := make(map[string]int)
+	return &Runner{
+		tailedFiles: m,
 	}
-	return s
+}
+
+// SpringParse This is the main program
+func (r *Runner) SpringParse() {
+	logFiles, err := listDirectory()
+	if err != nil {
+		log.Error(err.Error())
+		return
+	}
+	for _, fi := range logFiles {
+		result := shouldWatch(shouldWatchInput{
+			logFile: fi,
+		})
+		_, ok := r.tailedFiles[fi]
+		if result.watch && !ok {
+			r.tailedFiles[fi] = 0
+			go tailFile(fi)
+		}
+	}
+	return
+}
+
+func tailFile(fileName string) {
+	t, err := follower.New(fileName, follower.Config{
+		Whence: io.SeekEnd,
+		Offset: 0,
+		Reopen: true,
+	})
+	if err != nil {
+		return
+	}
+
+	for line := range t.Lines() {
+		err := sendElasticSearch(bytes.Replace(line.Bytes(), []byte("\n"), []byte(""), -1))
+		if err != nil {
+			putFailed.Inc()
+			log.Error(err.Error())
+			continue
+		}
+		putSuccess.Inc()
+	}
+
+	if t.Err() != nil {
+		log.Error(t.Err())
+		return
+	}
+}
+
+func listDirectory() ([]string, error) {
+	var files []string
+	err := filepath.Walk(logDirectory, func(path string, info os.FileInfo, err error) error {
+		files = append(files, path)
+		return nil
+	})
+	if err != nil {
+		return files, err
+	}
+	return files, nil
 }

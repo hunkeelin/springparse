@@ -17,7 +17,6 @@ var (
 	awsbucketPrefix     = os.Getenv("S3_PREFIX")
 	hostPort            = os.Getenv("HOST_PORT")
 	awsbucketName       = os.Getenv("AWS_S3_BUCKET")
-	tailBinary          = os.Getenv("TAIL_BIN")
 	logDirectory        = os.Getenv("LOG_DIRECTORY")
 	serviceRegex        = os.Getenv("SERVICE_REGEX")
 	awsRegion           = os.Getenv("AWS_REGION")

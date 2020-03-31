@@ -1,9 +1,10 @@
 package springparse
 
 import (
+	"fmt"
 	"io/ioutil"
-	"os"
 	"testing"
+	"time"
 )
 
 func TestPrint(t *testing.T) {
@@ -13,11 +14,16 @@ func TestPrint(t *testing.T) {
 	}
 }
 func TestSpringparse(t *testing.T) {
-	if os.Getenv("LOG_DIRECTORY") == "" || os.Getenv("TAIL_BIN") == "" {
-		return
-	}
-	err := SpringParse()
+	r := New()
+	logDirectory = "/tmp"
+	serviceRegexList = []string{"banking&service", "foo&bar"}
+	r.SpringParse()
+}
+func TestListDirectory(t *testing.T) {
+	logDirectory = "/tmp"
+	f, err := listDirectory()
 	if err != nil {
 		t.Errorf(err.Error())
 	}
+	fmt.Println(f)
 }

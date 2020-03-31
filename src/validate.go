@@ -23,9 +23,6 @@ func ValidateAwsEnv() error {
 
 // ValidateOtherEnv validates all system info from environment variables.
 func ValidateOtherEnv() error {
-	if tailBinary == "" {
-		return fmt.Errorf("Please set TAIL_BIN")
-	}
 	if logPrefix == "" {
 		return fmt.Errorf("Please specify LOG_PREFIX for elasticsearch prefix")
 	}
@@ -46,7 +43,6 @@ func ShowConfiguration() {
 	log.Info("Starting springparse with the following configuration")
 	log.Info(fmt.Sprintf("AWS_ELASTICSEARCH_URL: %v", awsElasticSearchURL))
 	log.Info(fmt.Sprintf("LOG_PREFIX: %v", logPrefix))
-	log.Info(fmt.Sprintf("TAIL_BIN: %v", tailBinary))
 	log.Info(fmt.Sprintf("LOG_DIRECTORY:  %v", logDirectory))
 	log.Info(fmt.Sprintf("SERVICE_REGEX: %v", serviceRegex))
 	log.Info(fmt.Sprintf("AWS_REGION: %v", awsRegion))
