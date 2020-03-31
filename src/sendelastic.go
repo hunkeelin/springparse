@@ -3,7 +3,6 @@ package springparse
 import (
 	"context"
 	"fmt"
-	"github.com/olivere/elastic"
 	log "github.com/sirupsen/logrus"
 	"time"
 )
@@ -14,7 +13,10 @@ func sendElasticSearch(s []byte) error {
 		return err
 	}
 	rDate := fmt.Sprintf(time.Now().UTC().Format("2006-01-02"))
-	client := newElasticClient(awsCredentials)
+	client, err := newElasticClient(awsCredentials)
+	if err != nil {
+		return err
+	}
 	ctx := context.Background()
 	put, err := client.Index().
 		Index("springparse" + "-" + rDate).
