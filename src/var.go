@@ -15,6 +15,7 @@ var (
 	awsElasticSearchURL = os.Getenv("AWS_ELASTICSEARCH_URL")
 	logPrefix           = os.Getenv("LOG_PREFIX")
 	awsbucketPrefix     = os.Getenv("S3_PREFIX")
+	hostPort            = os.Getenv("HOST_PORT")
 	awsbucketName       = os.Getenv("AWS_S3_BUCKET")
 	tailBinary          = os.Getenv("TAIL_BIN")
 	logDirectory        = os.Getenv("LOG_DIRECTORY")

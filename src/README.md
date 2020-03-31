@@ -7,6 +7,7 @@ Configurations are set during startup.
 * `AWS_SESSION_TOKEN`
 * `AWS_REGION`: 
 * `AWS_ELASTICSEARCH_URL`: URL for the elasticsearch domain. (required)
+* `HOST_PORT`: The default port the server is hosted on. Default `8080`
 * `LOG_PREFIX`: The log prefix when indexing to elasticsearch. (required)
 * `TAIL_BIN`: The binary for `tail`. (required)
 * `LOG_DIRECTORY`: The logs directory the software listens to. (required) If you mount the volumne to `/var/log/` it would be `/var/log/containers`.

@@ -10,4 +10,8 @@ var (
 		Name: "putsuccess",
 		Help: "The total number of index created",
 	})
+	putFailed = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "putfailed",
+		Help: "The total number of index failed to put",
+	})
 )

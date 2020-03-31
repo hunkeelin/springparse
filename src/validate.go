@@ -35,6 +35,9 @@ func ValidateOtherEnv() error {
 	if logDirectory == "" {
 		return fmt.Errorf("Please specify LOG_DIRECTORY")
 	}
+	if hostPort == "" {
+		hostPort = "8080"
+	}
 	return nil
 }
 
