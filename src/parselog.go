@@ -2,6 +2,8 @@ package springparse
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"strconv"
 	"strings"
@@ -44,7 +46,7 @@ func parseLog(s []byte) (parseLogOutput, error) {
 	thread = getThread(p.Log)
 	loggerName = getLoggerName(p.Log)
 	return parseLogOutput{
-		id: "",
+		id: logHash(s),
 		content: elasticOut{
 			TimeStamp:  p.Time,
 			RawLog:     p.Log,
@@ -94,4 +96,10 @@ func getLoggerName(s string) string {
 		return strings.Replace(s[loggerbegin:loggerend], " ", "", -1)
 	}
 	return ""
+}
+
+func logHash(rawInput []byte) string {
+	hasher := md5.New()
+	hasher.Write(rawInput)
+	return hex.EncodeToString(hasher.Sum(nil))[0:20]
 }
