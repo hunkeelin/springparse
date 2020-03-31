@@ -13,7 +13,7 @@ var (
 	awsSecretAccessKey  = os.Getenv("AWS_SECRET_ACCESS_KEY")
 	awsSessionToken     = os.Getenv("AWS_SESSION_TOKEN")
 	awsElasticSearchURL = os.Getenv("AWS_ELASTICSEARCH_URL")
-	logPrefix           = os.Getenv("LOGSTASH_PREFIX")
+	logPrefix           = os.Getenv("LOG_PREFIX")
 	awsbucketPrefix     = os.Getenv("S3_PREFIX")
 	awsbucketName       = os.Getenv("AWS_S3_BUCKET")
 	tailBinary          = os.Getenv("TAIL_BIN")
