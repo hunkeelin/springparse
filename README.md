@@ -45,4 +45,4 @@ func main() {
 `springparse` is currently compatible with golang version from 1.12+.
 
 ## Todo
-* implement prometheus metric server
+* implement more prometheus metrics
