@@ -19,7 +19,7 @@ func sendElasticSearch(s []byte) error {
 	}
 	ctx := context.Background()
 	put, err := client.Index().
-		Index("springparse" + "-" + rDate).
+		Index(logPrefix + "-" + rDate).
 		Type("springparse").
 		Id(out.id).
 		BodyJson(out.content).
