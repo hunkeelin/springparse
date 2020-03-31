@@ -6,7 +6,7 @@ import (
 	"net/url"
 )
 
-// ValidateAwsEnv: Validates all aws related configration and set defaults from environment variables
+// ValidateAwsEnv validates all aws related configration and set defaults from environment variables
 func ValidateAwsEnv() error {
 	if awsElasticSearchURL == "" {
 		return fmt.Errorf("Please set AWS_ELASTICSEARCH_URL")
@@ -21,7 +21,7 @@ func ValidateAwsEnv() error {
 	return nil
 }
 
-// ValidateSystemEnv: Validates all system info from environment variables.
+// ValidateSystemEnv validates all system info from environment variables.
 func ValidateOtherEnv() error {
 	if tailBinary == "" {
 		return fmt.Errorf("Please set TAIL_BIN")
@@ -38,7 +38,7 @@ func ValidateOtherEnv() error {
 	return nil
 }
 
-// ShowConfiguration: Shows the environment variables being set
+// ShowConfiguration shows the environment variables being set
 func ShowConfiguration() {
 	log.Info("Starting springparse with the following configuration")
 	log.Info(fmt.Sprintf("AWS_ELASTICSEARCH_URL: %v", awsElasticSearchURL))

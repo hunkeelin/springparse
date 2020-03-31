@@ -7,7 +7,7 @@ import (
 	"os/exec"
 )
 
-// main
+// SpringParse This is the main program
 func SpringParse() error {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
