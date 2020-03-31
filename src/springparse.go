@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/fsnotify/fsnotify"
+	log "github.com/sirupsen/logrus"
 	"os/exec"
 )
 
@@ -31,9 +32,17 @@ func SpringParse() error {
 					})
 					if result.watch {
 						acmd := exec.Command(tailBinary, "-n", "1", event.Name)
-						out, _ := acmd.Output()
+						out, err := acmd.Output()
+						if err != nil {
+							log.Error(err.Error())
+							continue
+						}
 						out = bytes.Replace(out, []byte("\n"), []byte(""), -1)
-						fmt.Println(string(out))
+						err = sendElasticSearch(out)
+						if err != nil {
+							log.Error(err.Error())
+							continue
+						}
 					}
 				}
 				// watch for errors
