@@ -7,11 +7,42 @@
 
 ## Motivation
 As of now, we can use fluentd daemonset to have a pod on every eks node. Mount the `/var/log/containers` and tail any incoming logs and send it to elasticsearch. However, the log format isn't ideal. For example, the below log will simply stick the sprintboot logs to the key value `log`. The log level, executor, thread, and loggername are not searchable in elasticsearch that way. `fluentd` have log transformation via `regexp` but that plugin is not suffice for the use case as regexing logs for transformation is too difficult or simply not possible. 
+```json
+{
+  "log": "2020-03-30 19:57:33.702  INFO 1 --- [       Thread-3] c.v.b.t.fooWebhookEventConsumer      : FOOLOG",
+  "stream": "stdout",
+  "time": "2020-03-30T19:57:33.703403463Z"
+}
 ```
-{"log":"2020-03-30 19:57:33.702  INFO 1 --- [       Thread-3] c.v.b.t.fooWebhookEventConsumer      : FOOLOG","stream":"stdout","time":"2020-03-30T19:57:33.703403463Z"}
+
+## Usage
+For details on setting environment variables and configurations please refer to [documentation](src/README.md)
+
+## Example
+```go
+package main
+
+import (
+    "github.com/hunkeelin/springparse/src"
+)
+
+func main() {
+    err := springparse.ValidateAwsEnv()
+    if err != nil {
+            panic(err)
+    }
+    err = springparse.ValidateOtherEnv()
+    if err != nil {
+            panic(err)
+    }
+    springparse.ShowConfiguration()
+    springparse.SpringParse()
+}
 ```
 
 ## Golang version
 
 `springparse` is currently compatible with golang version from 1.12+.
 
+## Todo
+* implement prometheus metric server
