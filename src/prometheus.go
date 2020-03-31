@@ -7,11 +7,11 @@ import (
 
 var (
 	putSuccess = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "putsuccess",
+		Name: "springparse_putsuccess",
 		Help: "The total number of index created",
 	})
 	putFailed = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "putfailed",
+		Name: "springparse_putfailed",
 		Help: "The total number of index failed to put",
 	})
 )
