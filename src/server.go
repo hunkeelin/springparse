@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// Server host a metric server so SRE can grab metrics
 func Server() error {
 	mux := http.NewServeMux()
 	mux.Handle("/metrics", promhttp.InstrumentMetricHandler(

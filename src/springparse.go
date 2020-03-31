@@ -34,15 +34,18 @@ func SpringParse() error {
 						acmd := exec.Command(tailBinary, "-n", "1", event.Name)
 						out, err := acmd.Output()
 						if err != nil {
+							putFailed.Inc()
 							log.Error(err.Error())
 							continue
 						}
 						out = bytes.Replace(out, []byte("\n"), []byte(""), -1)
 						err = sendElasticSearch(out)
 						if err != nil {
+							putFailed.Inc()
 							log.Error(err.Error())
 							continue
 						}
+						putSuccess.Inc()
 					}
 				}
 				// watch for errors
