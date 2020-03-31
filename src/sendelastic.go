@@ -2,6 +2,9 @@ package springparse
 
 import (
 	"fmt"
+	"github.com/olivere/elastic"
+	log "github.com/sirupsen/logrus"
+	"time"
 )
 
 func sendElasticSearch(s []byte) error {
@@ -9,6 +12,17 @@ func sendElasticSearch(s []byte) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(s.content, s.id)
+	rDate := fmt.Sprintf(time.Now().UTC().Format("2006-01-02"))
+	client := newElasticClient(awsCredentials)
+	put, err := client.Index().
+		Index("springparse" + "-" + rDate).
+		Type("springparse").
+		Id(out.id).
+		BodyJson(out.content).
+		Do(ctx)
+	if err != nil {
+		return err
+	}
+	log.Info(fmt.Sprintf("Index %s created with id %v", put.Index, put.Id))
 	return nil
 }

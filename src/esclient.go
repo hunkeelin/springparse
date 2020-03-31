@@ -5,7 +5,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/signer/v4"
 	"github.com/olivere/elastic"
 	"github.com/sha1sum/aws_signing_client"
-	"time"
 )
 
 func newElasticClient(awsCredentials *credentials.Credentials) (*elastic.Client, error) {
