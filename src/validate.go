@@ -21,7 +21,7 @@ func ValidateAwsEnv() error {
 	return nil
 }
 
-// ValidateSystemEnv validates all system info from environment variables.
+// ValidateOtherEnv validates all system info from environment variables.
 func ValidateOtherEnv() error {
 	if tailBinary == "" {
 		return fmt.Errorf("Please set TAIL_BIN")
