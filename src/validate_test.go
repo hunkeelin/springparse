@@ -16,6 +16,7 @@ func TestValidateOther(t *testing.T) {
 
 }
 func TestValidateAws(t *testing.T) {
+	tailBinary = "/usr/bin/tail"
 	err := ValidateAwsEnv()
 	if err != nil {
 		t.Errorf(err.Error())
