@@ -1,4 +1,4 @@
-# RedisProxy 
+# SpringParse
 [![CircleCI](https://circleci.com/gh/hunkeelin/springparse.svg?style=shield)](https://circleci.com/gh/hunkeelin/springparse)
 [![Go Report Card](https://goreportcard.com/badge/github.com/hunkeelin/springparse)](https://goreportcard.com/report/github.com/hunkeelin/springparse)
 [![GoDoc](https://godoc.org/github.com/hunkeelin/springparse/src?status.svg)](https://godoc.org/github.com/hunkeelin/springparse/src)
