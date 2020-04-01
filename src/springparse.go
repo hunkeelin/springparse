@@ -9,10 +9,12 @@ import (
 	"path/filepath"
 )
 
+// Runner the struct that runs the program
 type Runner struct {
 	tailedFiles map[string]int
 }
 
+// NewRunner creates a runner struct with map initialized
 func NewRunner() *Runner {
 	m := make(map[string]int)
 	return &Runner{
