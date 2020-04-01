@@ -71,7 +71,6 @@ func (r *runner) tailFile(fileName string) {
 			log.Error(err.Error())
 			continue
 		}
-		putSuccess.Inc()
 	}
 
 	if t.Err() != nil {
