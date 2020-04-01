@@ -19,13 +19,7 @@ type elasticOut struct {
 	ProcessId  string    `json:"processid"`  // ProcessId
 	RawLog     string    `json:"rawlog"`     // RawLog
 	FileName   string    `json:"filename"`   // FileName
-	// KubeInfo
-	PodName       string `json:"podname"`       // Podname
-	NameSpace     string `json:"namespace"`     // Namespace
-	App           string `json:"app"`           // App
-	AppType       string `json:"app.type"`      // AppType
-	ContainerName string `json:"containername"` //ContainerName
-
+	KubeInfo   kubeInfo  `json:"kubernetes"` // KubeInfo
 }
 
 func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
