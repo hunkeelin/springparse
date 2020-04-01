@@ -19,7 +19,7 @@ type elasticOut struct {
 	ProcessId  string    `json:"processid"`  // ProcessId
 	RawLog     string    `json:"rawlog"`     // RawLog
 	FileName   string    `json:"filename"`   // FileName
-	KubeInfo   KubeInfo  `json:"kubernetes"` // KubeInfo
+	KubeInfo   kubeInfo  `json:"k8"`         // KubeInfo
 }
 
 func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
@@ -34,7 +34,7 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 		// Ignoring that part of the log
 		return nil
 	}
-	err = getKubeInfo(getKubeInfoInput{
+	err = getkubeInfo(getkubeInfoInput{
 		fileName: s.fileName,
 		es:       &out.content,
 	})
