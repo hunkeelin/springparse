@@ -38,6 +38,9 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 		fileName: s.fileName,
 		es:       &out.content,
 	})
+	if err != nil {
+		return err
+	}
 	rDate := fmt.Sprintf(time.Now().UTC().Format("2006-01-02"))
 	client, err := newElasticClient(awsCredentials)
 	if err != nil {
