@@ -24,15 +24,6 @@ type parseLogInput struct {
 	rawLog   []byte
 	fileName string
 }
-type elasticOut struct {
-	TimeStamp  time.Time `json:"@timestamp"` // TimeStamp
-	LogLevel   string    `json:"level"`      // LogLevel the log level of the log
-	Thread     string    `json:"thread"`     // Thread
-	LoggerName string    `json:"loggername"` // LoggerName
-	ProcessId  string    `json:"processid"`  // ProcessId
-	RawLog     string    `json:"rawlog"`     // RawLog
-	FileName   string    `json:"filename"`   //FileName
-}
 
 func (r *Runner) parseLog(s parseLogInput) (parseLogOutput, error) {
 	var p rawLog
