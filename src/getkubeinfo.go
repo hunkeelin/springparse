@@ -12,7 +12,7 @@ type kubeInfo struct {
 	PodName       string `json:"podname"`   // Podname
 	NameSpace     string `json:"namespace"` // Namespace
 	App           string `json:"app"`       // App
-	AppType       string `json:"app.type"`  // AppType
+	AppType       string `json:"apptype"`   // AppType
 	ContainerName string `json:"containername"`
 }
 
