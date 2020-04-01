@@ -16,14 +16,14 @@ func TestSpringparse(t *testing.T) {
 	if os.Getenv("LOG_DIRECTORY") == "" {
 		return
 	}
-	r := NewRunner()
+	r := New()
 	logDirectory = "/tmp"
 	serviceRegexList = []string{"banking&service", "foo&bar"}
 	r.SpringParse()
 }
 func TestListDirectory(t *testing.T) {
 	logDirectory = "/tmp"
-	r := NewRunner()
+	r := New()
 	_, err := r.listDirectory()
 	if err != nil {
 		t.Errorf(err.Error())

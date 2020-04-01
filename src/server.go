@@ -8,7 +8,7 @@ import (
 )
 
 // Server host a metric server so SRE can grab metrics
-func (r *Runner) Server() error {
+func (r *Client) Server() error {
 	mux := http.NewServeMux()
 	mux.Handle("/metrics", promhttp.InstrumentMetricHandler(
 		prometheus.DefaultRegisterer, promhttp.HandlerFor(prometheus.DefaultGatherer, promhttp.HandlerOpts{}),

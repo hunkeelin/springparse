@@ -22,7 +22,7 @@ type elasticOut struct {
 	KubeInfo   kubeInfo  `json:"kubernetes"` // KubeInfo
 }
 
-func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
+func (r *runner) sendElasticSearch(s sendElasticSearchInput) error {
 	out, err := r.parseLog(parseLogInput{
 		fileName: s.fileName,
 		rawLog:   s.rawLog,
@@ -31,7 +31,12 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 		return err
 	}
 	if out.content.LogLevel == "" {
-		// Ignoring that part of the log
+		if r.buffer != nil {
+			r.buffer.RawLog = r.buffer.RawLog + "\n" + out.content.RawLog
+		} else {
+			// Ignoring that part of the log
+			log.Info("It seems this part of the log is part of a stacktrace before springparse start tailing")
+		}
 		return nil
 	}
 	err = getkubeInfo(getkubeInfoInput{
@@ -41,6 +46,14 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 	if err != nil {
 		return err
 	}
+	if r.buffer == nil {
+		log.Info("Sending current log to buffer")
+		r.buffer = &out.content
+		r.bufferId = out.id
+		return nil
+	}
+
+	// Check if buffer is empty, if empty means this is the first log
 	rDate := fmt.Sprintf(time.Now().UTC().Format("2006-01-02"))
 	client, err := newElasticClient(awsCredentials)
 	if err != nil {
@@ -50,12 +63,14 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 	put, err := client.Index().
 		Index(logPrefix + "-" + rDate).
 		Type("springparse").
-		Id(out.id).
-		BodyJson(out.content).
+		Id(r.bufferId).
+		BodyJson(r.buffer).
 		Do(ctx)
 	if err != nil {
 		return err
 	}
+	r.buffer = &out.content
+	r.bufferId = out.id
 	log.Info(fmt.Sprintf("Index %s created with id %v", put.Index, put.Id))
 	return nil
 }

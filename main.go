@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	r := springparse.NewRunner()
+	r := springparse.New()
 	err := r.ValidateAwsEnv()
 	if err != nil {
 		panic(err)

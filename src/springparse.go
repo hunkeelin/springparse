@@ -9,21 +9,27 @@ import (
 	"path/filepath"
 )
 
-// Runner the struct that runs the program
-type Runner struct {
+// Client the struct that runs the program
+type Client struct {
 	tailedFiles map[string]int
 }
 
-// NewRunner creates a runner struct with map initialized
-func NewRunner() *Runner {
+// New creates a client struct with map initialized
+func New() *Client {
 	m := make(map[string]int)
-	return &Runner{
+	return &Client{
 		tailedFiles: m,
 	}
 }
 
+// runner runner spawn by go routine
+type runner struct {
+	buffer   *elasticOut
+	bufferId string
+}
+
 // SpringParse This is the main program
-func (r *Runner) SpringParse() {
+func (r *Client) SpringParse() {
 	logFiles, err := r.listDirectory()
 	if err != nil {
 		log.Error(err.Error())
@@ -36,13 +42,16 @@ func (r *Runner) SpringParse() {
 		_, ok := r.tailedFiles[fi]
 		if result.watch && !ok {
 			r.tailedFiles[fi] = 0
-			go r.tailFile(fi)
+			go func() {
+				newRunner := runner{}
+				newRunner.tailFile(fi)
+			}()
 		}
 	}
 	return
 }
 
-func (r *Runner) tailFile(fileName string) {
+func (r *runner) tailFile(fileName string) {
 	t, err := follower.New(fileName, follower.Config{
 		Whence: io.SeekEnd,
 		Offset: 0,
@@ -71,7 +80,7 @@ func (r *Runner) tailFile(fileName string) {
 	}
 }
 
-func (r *Runner) listDirectory() ([]string, error) {
+func (r *Client) listDirectory() ([]string, error) {
 	var files []string
 	err := filepath.Walk(logDirectory, func(path string, info os.FileInfo, err error) error {
 		files = append(files, path)

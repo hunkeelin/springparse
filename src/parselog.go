@@ -25,7 +25,7 @@ type parseLogInput struct {
 	fileName string
 }
 
-func (r *Runner) parseLog(s parseLogInput) (parseLogOutput, error) {
+func (r *runner) parseLog(s parseLogInput) (parseLogOutput, error) {
 	var p rawLog
 	var level, processId, thread, loggerName string
 	rawlogNoESC := bytes.Replace(s.rawLog, []byte("\n"), []byte(""), -1)

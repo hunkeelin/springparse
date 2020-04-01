@@ -9,7 +9,7 @@ func TestValidateOther(t *testing.T) {
 	logPrefix = "foo"
 	serviceRegex = "foo&bar,candy&bar"
 	logDirectory = "/var/log"
-	r := NewRunner()
+	r := New()
 	err := r.ValidateOtherEnv()
 	if err != nil {
 		t.Errorf(err.Error())
@@ -17,7 +17,7 @@ func TestValidateOther(t *testing.T) {
 
 }
 func TestValidateAws(t *testing.T) {
-	r := NewRunner()
+	r := New()
 	err := r.ValidateAwsEnv()
 	if err != nil {
 		t.Errorf(err.Error())
