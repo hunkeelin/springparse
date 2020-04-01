@@ -35,7 +35,7 @@ func getkubeInfo(s getkubeInfoInput) error {
 	if err != nil {
 		panic(err.Error())
 	}
-	result, err := clientset.CoreV1().Pods("api").Get("banking-649df48fdb-q9m8l", metav1.GetOptions{})
+	result, err := clientset.CoreV1().Pods(c.podName).Get(c.nameSpace, metav1.GetOptions{})
 	if err != nil {
 		panic(err)
 	}
