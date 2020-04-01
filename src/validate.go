@@ -7,7 +7,7 @@ import (
 )
 
 // ValidateAwsEnv validates all aws related configration and set defaults from environment variables
-func ValidateAwsEnv() error {
+func (r *Runner) ValidateAwsEnv() error {
 	if awsElasticSearchURL == "" {
 		return fmt.Errorf("Please set AWS_ELASTICSEARCH_URL")
 	}
@@ -22,7 +22,7 @@ func ValidateAwsEnv() error {
 }
 
 // ValidateOtherEnv validates all system info from environment variables.
-func ValidateOtherEnv() error {
+func (r *Runner) ValidateOtherEnv() error {
 	if logPrefix == "" {
 		return fmt.Errorf("Please specify LOG_PREFIX for elasticsearch prefix")
 	}
@@ -39,7 +39,7 @@ func ValidateOtherEnv() error {
 }
 
 // ShowConfiguration shows the environment variables being set
-func ShowConfiguration() {
+func (r *Runner) ShowConfiguration() {
 	log.Info("Starting springparse with the following configuration")
 	log.Info(fmt.Sprintf("AWS_ELASTICSEARCH_URL: %v", awsElasticSearchURL))
 	log.Info(fmt.Sprintf("LOG_PREFIX: %v", logPrefix))

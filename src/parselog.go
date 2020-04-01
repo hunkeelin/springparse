@@ -20,6 +20,10 @@ type parseLogOutput struct {
 	id      string
 	content elasticOut
 }
+type parseLogInput struct {
+	rawLog   []byte
+	fileName string
+}
 type elasticOut struct {
 	TimeStamp  time.Time `json:"@timestamp"` // TimeStamp
 	LogLevel   string    `json:"level"`      // LogLevel the log level of the log
@@ -27,13 +31,14 @@ type elasticOut struct {
 	LoggerName string    `json:"loggername"` // LoggerName
 	ProcessId  string    `json:"processid"`  // ProcessId
 	RawLog     string    `json:"rawlog"`     // RawLog
+	FileName   string    `json:"filename"`   //FileName
 }
 
-func parseLog(s []byte) (parseLogOutput, error) {
+func (r *Runner) parseLog(s parseLogInput) (parseLogOutput, error) {
 	var p rawLog
 	var level, processId, thread, loggerName string
-	s = bytes.Replace(s, []byte("\n"), []byte(""), -1)
-	err := json.Unmarshal(s, &p)
+	rawlogNoESC := bytes.Replace(s.rawLog, []byte("\n"), []byte(""), -1)
+	err := json.Unmarshal(rawlogNoESC, &p)
 	if err != nil {
 		return parseLogOutput{}, err
 	}
@@ -54,13 +59,14 @@ func parseLog(s []byte) (parseLogOutput, error) {
 	thread = getThread(p.Log)
 	loggerName = getLoggerName(p.Log)
 	return parseLogOutput{
-		id: logHash(s),
+		id: logHash(s.rawLog),
 		content: elasticOut{
 			TimeStamp:  p.Time,
 			RawLog:     p.Log,
 			Thread:     thread,
 			LoggerName: loggerName,
 			ProcessId:  processId,
+			FileName:   s.fileName,
 			LogLevel:   level,
 		},
 	}, nil

@@ -7,10 +7,22 @@ import (
 	"time"
 )
 
-func sendElasticSearch(s []byte) error {
-	out, err := parseLog(s)
+type sendElasticSearchInput struct {
+	rawLog   []byte
+	fileName string
+}
+
+func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
+	out, err := r.parseLog(parseLogInput{
+		fileName: s.fileName,
+		rawLog:   s.rawLog,
+	})
 	if err != nil {
 		return err
+	}
+	if out.content.LogLevel == "" {
+		// Ignoring that part of the log
+		return nil
 	}
 	rDate := fmt.Sprintf(time.Now().UTC().Format("2006-01-02"))
 	client, err := newElasticClient(awsCredentials)

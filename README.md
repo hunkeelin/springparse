@@ -28,23 +28,23 @@ import (
 )
 
 func main() {
-    err := springparse.ValidateAwsEnv()
+    r := springparse.NewRunner()
+    err := r.ValidateAwsEnv()
     if err != nil {
             panic(err)
     }
-    err = springparse.ValidateOtherEnv()
+    err = r.ValidateOtherEnv()
     if err != nil {
             panic(err)
     }
-    springparse.ShowConfiguration()
-    r := springparse.New()
+    r.ShowConfiguration()
     go func() {
             for {
                     r.SpringParse()
                     time.Sleep(3 * time.Second)
             }
     }()
-    err = springparse.Server()
+    err = r.Server()
     if err != nil {
             panic(err)
     }

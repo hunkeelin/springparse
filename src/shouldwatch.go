@@ -12,7 +12,7 @@ type shouldWatchOutput struct {
 	err   error
 }
 
-func shouldWatch(s shouldWatchInput) shouldWatchOutput {
+func (r *Runner) shouldWatch(s shouldWatchInput) shouldWatchOutput {
 	for _, service := range serviceRegexList {
 		serviceDetail := strings.Split(service, "&")
 		var didmatch bool

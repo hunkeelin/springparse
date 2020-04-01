@@ -13,7 +13,7 @@ type Runner struct {
 	tailedFiles map[string]int
 }
 
-func New() *Runner {
+func NewRunner() *Runner {
 	m := make(map[string]int)
 	return &Runner{
 		tailedFiles: m,
@@ -22,25 +22,25 @@ func New() *Runner {
 
 // SpringParse This is the main program
 func (r *Runner) SpringParse() {
-	logFiles, err := listDirectory()
+	logFiles, err := r.listDirectory()
 	if err != nil {
 		log.Error(err.Error())
 		return
 	}
 	for _, fi := range logFiles {
-		result := shouldWatch(shouldWatchInput{
+		result := r.shouldWatch(shouldWatchInput{
 			logFile: fi,
 		})
 		_, ok := r.tailedFiles[fi]
 		if result.watch && !ok {
 			r.tailedFiles[fi] = 0
-			go tailFile(fi)
+			go r.tailFile(fi)
 		}
 	}
 	return
 }
 
-func tailFile(fileName string) {
+func (r *Runner) tailFile(fileName string) {
 	t, err := follower.New(fileName, follower.Config{
 		Whence: io.SeekEnd,
 		Offset: 0,
@@ -51,7 +51,10 @@ func tailFile(fileName string) {
 	}
 
 	for line := range t.Lines() {
-		err := sendElasticSearch(bytes.Replace(line.Bytes(), []byte("\n"), []byte(""), -1))
+		err := r.sendElasticSearch(sendElasticSearchInput{
+			rawLog:   bytes.Replace(line.Bytes(), []byte("\n"), []byte(""), -1),
+			fileName: fileName,
+		})
 		if err != nil {
 			putFailed.Inc()
 			log.Error(err.Error())
@@ -66,7 +69,7 @@ func tailFile(fileName string) {
 	}
 }
 
-func listDirectory() ([]string, error) {
+func (r *Runner) listDirectory() ([]string, error) {
 	var files []string
 	err := filepath.Walk(logDirectory, func(path string, info os.FileInfo, err error) error {
 		files = append(files, path)
