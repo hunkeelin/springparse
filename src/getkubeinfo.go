@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type kubeInfo struct {
+type KubeInfo struct {
 	PodName       string `json:"podname"`   // Podname
 	NameSpace     string `json:"namespace"` // Namespace
 	App           string `json:"app"`       // App
@@ -16,12 +16,12 @@ type kubeInfo struct {
 	ContainerName string `json:"containername"`
 }
 
-type getkubeInfoInput struct {
+type getKubeInfoInput struct {
 	fileName string
 	es       *elasticOut
 }
 
-func getkubeInfo(s getkubeInfoInput) error {
+func getKubeInfo(s getKubeInfoInput) error {
 	c, err := getContainerInfo(s.fileName)
 	if err != nil {
 		return err
@@ -39,7 +39,7 @@ func getkubeInfo(s getkubeInfoInput) error {
 	if err != nil {
 		panic(err)
 	}
-	s.es.KubeInfo = kubeInfo{
+	s.es.KubeInfo = KubeInfo{
 		PodName:       c.podName,
 		NameSpace:     c.nameSpace,
 		ContainerName: c.containerName,
