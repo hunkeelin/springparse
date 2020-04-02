@@ -22,7 +22,7 @@ type elasticOut struct {
 	KubeInfo   kubeInfo  `json:"kubernetes"` // KubeInfo
 }
 
-func (r *runner) sendElasticSearch(s sendElasticSearchInput) error {
+func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 	out, err := r.parseLog(parseLogInput{
 		fileName: s.fileName,
 		rawLog:   s.rawLog,
@@ -31,8 +31,8 @@ func (r *runner) sendElasticSearch(s sendElasticSearchInput) error {
 		return err
 	}
 	if out.content.LogLevel == "" {
-		if r.buffer != nil {
-			r.buffer.RawLog = r.buffer.RawLog + "\n" + out.content.RawLog
+		if r.Buffer != nil {
+			r.Buffer.RawLog = r.Buffer.RawLog + "\n" + out.content.RawLog
 		} else {
 			// Ignoring that part of the log
 			log.Info("It seems this part of the log is part of a stacktrace before springparse start tailing")
@@ -46,10 +46,10 @@ func (r *runner) sendElasticSearch(s sendElasticSearchInput) error {
 	if err != nil {
 		return err
 	}
-	if r.buffer == nil {
+	if r.Buffer == nil {
 		log.Info("Sending current log to buffer")
-		r.buffer = &out.content
-		r.bufferId = out.id
+		r.Buffer = &out.content
+		r.BufferId = out.id
 		return nil
 	}
 
@@ -63,15 +63,15 @@ func (r *runner) sendElasticSearch(s sendElasticSearchInput) error {
 	put, err := client.Index().
 		Index(logPrefix + "-" + rDate).
 		Type("springparse").
-		Id(r.bufferId).
-		BodyJson(r.buffer).
+		Id(r.BufferId).
+		BodyJson(r.Buffer).
 		Do(ctx)
 	if err != nil {
 		return err
 	}
 	log.Info(fmt.Sprintf("Index %s created with id %v", put.Index, put.Id))
 	putSuccess.Inc()
-	r.buffer = &out.content
-	r.bufferId = out.id
+	r.Buffer = &out.content
+	r.BufferId = out.id
 	return nil
 }

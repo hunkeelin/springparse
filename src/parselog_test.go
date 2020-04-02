@@ -15,7 +15,7 @@ func TestLoghash(t *testing.T) {
 
 func TestParselog(t *testing.T) {
 	s := []byte("{\"log\":\"2020-03-30 19:57:34.061  INFO 3 --- [       Thread-3] b.c.c.NetworkCardTransactionEventHandler : Ignoring ISO8583 network management request with eventId:f9de2711-1206-4aee-b562-48a2a741ce4d\n\",\"stream\":\"stdout\",\"time\":\"2020-03-30T19:57:34.062113419Z\"}")
-	r := runner{}
+	r := Runner{}
 	result, err := r.parseLog(parseLogInput{
 		rawLog: s,
 	})

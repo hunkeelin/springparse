@@ -22,10 +22,10 @@ func New() *Client {
 	}
 }
 
-// runner runner spawn by go routine
-type runner struct {
-	buffer   *elasticOut
-	bufferId string
+// Runner Runner spawn by go routine
+type Runner struct {
+	Buffer   *elasticOut
+	BufferId string
 }
 
 // SpringParse This is the main program
@@ -43,7 +43,7 @@ func (r *Client) SpringParse() {
 		if result.watch && !ok {
 			r.tailedFiles[fi] = 0
 			go func() {
-				newRunner := runner{}
+				newRunner := Runner{}
 				newRunner.tailFile(fi)
 			}()
 		}
@@ -51,7 +51,7 @@ func (r *Client) SpringParse() {
 	return
 }
 
-func (r *runner) tailFile(fileName string) {
+func (r *Runner) tailFile(fileName string) {
 	t, err := follower.New(fileName, follower.Config{
 		Whence: io.SeekEnd,
 		Offset: 0,
