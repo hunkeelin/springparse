@@ -42,10 +42,8 @@ func (r *Client) SpringParse() {
 		_, ok := r.tailedFiles[fi]
 		if result.watch && !ok {
 			r.tailedFiles[fi] = 0
-			go func() {
-				newRunner := Runner{}
-				newRunner.tailFile(fi)
-			}()
+			newRunner := Runner{}
+			go newRunner.tailFile(fi)
 		}
 	}
 	return
