@@ -41,6 +41,7 @@ func (r *Client) SpringParse() {
 		})
 		_, ok := r.tailedFiles[fi]
 		if result.watch && !ok {
+			log.Info("Tailing " + fi)
 			r.tailedFiles[fi] = 0
 			newRunner := Runner{}
 			go newRunner.tailFile(fi)
