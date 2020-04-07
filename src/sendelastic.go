@@ -69,7 +69,7 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 	if err != nil {
 		return err
 	}
-	log.Info(fmt.Sprintf("Index %s created with id %v", put.Index, put.Id))
+	//log.Info(fmt.Sprintf("Index %s created with id %v", put.Index, put.Id))
 	putSuccess.Inc()
 	r.Buffer = &out.content
 	r.BufferId = out.id
