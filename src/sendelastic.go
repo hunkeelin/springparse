@@ -60,7 +60,7 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 		return err
 	}
 	ctx := context.Background()
-	_, err := client.Index().
+	_, err = client.Index().
 		Index(logPrefix + "-" + rDate).
 		Type("springparse").
 		Id(r.BufferId).
