@@ -2,7 +2,7 @@ package springparse
 
 import (
 	"bytes"
-	"github.com/papertrail/go-tail/follower"
+	"github.com/hunkeelin/go-tail/follower"
 	log "github.com/sirupsen/logrus"
 	"io"
 	"os"
