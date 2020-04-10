@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -31,7 +32,7 @@ func (r *Runner) parseLog(s parseLogInput) (parseLogOutput, error) {
 	rawlogNoESC := bytes.Replace(s.rawLog, []byte("\n"), []byte(""), -1)
 	err := json.Unmarshal(rawlogNoESC, &p)
 	if err != nil {
-		return parseLogOutput{}, err
+		return parseLogOutput{}, fmt.Errorf("Unable to marshall Json %v", err)
 	}
 	logSplit := strings.Split(p.Log, " ")
 	for _, word := range logSplit {

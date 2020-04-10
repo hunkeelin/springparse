@@ -28,16 +28,16 @@ func getkubeInfo(s getkubeInfoInput) error {
 	}
 	config, err := rest.InClusterConfig()
 	if err != nil {
-		panic(err.Error())
+		return fmt.Errorf("Unable to get in cluster config in pod %v", err)
 	}
 	// creates the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		panic(err.Error())
+		return fmt.Errorf("Unable to set new config %v", err)
 	}
 	result, err := clientset.CoreV1().Pods(c.nameSpace).Get(c.podName, metav1.GetOptions{})
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("Unable to get pod specs %v", err)
 	}
 	s.es.KubeInfo = kubeInfo{
 		PodName:       c.podName,

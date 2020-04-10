@@ -67,7 +67,7 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 		BodyJson(r.Buffer).
 		Do(ctx)
 	if err != nil {
-		return err
+		return fmt.Errorf("Unable to send index %v", err)
 	}
 	log.Info(fmt.Sprintf("Index %s created with id %v", put.Index, put.Id))
 	putSuccess.Inc()

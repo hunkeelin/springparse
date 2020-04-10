@@ -1,6 +1,7 @@
 package springparse
 
 import (
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/signer/v4"
 	"github.com/olivere/elastic"
@@ -11,7 +12,7 @@ func newElasticClient(awsCredentials *credentials.Credentials) (*elastic.Client,
 	signer := v4.NewSigner(awsCredentials)
 	awsClient, err := aws_signing_client.New(signer, nil, "es", awsRegion)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Unable to sign client %v", err)
 	}
 	return elastic.NewClient(
 		elastic.SetURL(awsElasticSearchURL),

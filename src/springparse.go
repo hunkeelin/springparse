@@ -32,7 +32,7 @@ type Runner struct {
 func (r *Client) SpringParse() {
 	logFiles, err := r.listDirectory()
 	if err != nil {
-		log.Error(err.Error())
+		log.Error("Unable to list directory: " + err.Error())
 		return
 	}
 	for _, fi := range logFiles {
@@ -57,6 +57,7 @@ func (r *Runner) tailFile(fileName string) {
 		Reopen: true,
 	})
 	if err != nil {
+		log.Error("Unable to create follower: " + err.Error())
 		return
 	}
 
@@ -73,7 +74,7 @@ func (r *Runner) tailFile(fileName string) {
 	}
 
 	if t.Err() != nil {
-		log.Error(t.Err())
+		log.Error("Follower error: " + t.Err().Error())
 		return
 	}
 }
