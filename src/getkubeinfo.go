@@ -16,6 +16,10 @@ type kubeInfo struct {
 	ContainerName string `json:"containername"`
 }
 
+type labels struct {
+	AppName string `json:"app_kubernetes_io/name"`
+}
+
 type getkubeInfoInput struct {
 	fileName string
 	es       *elasticOut
@@ -45,6 +49,9 @@ func getkubeInfo(s getkubeInfoInput) error {
 		ContainerName: c.containerName,
 		App:           result.ObjectMeta.Labels["app"],
 		AppType:       result.ObjectMeta.Labels["app.type"],
+	}
+	s.es.Labels = labels{
+		AppName: result.ObjectMeta.Labels["app"],
 	}
 	return nil
 }

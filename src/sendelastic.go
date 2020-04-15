@@ -17,9 +17,10 @@ type elasticOut struct {
 	Thread     string    `json:"thread"`     // Thread
 	LoggerName string    `json:"loggername"` // LoggerName
 	ProcessId  string    `json:"processid"`  // ProcessId
-	RawLog     string    `json:"rawlog"`     // RawLog
+	RawLog     string    `json:"log"`        // RawLog
 	FileName   string    `json:"filename"`   // FileName
 	KubeInfo   kubeInfo  `json:"kubernetes"` // KubeInfo
+	Labels     labels    `json:"labels"`     // Labels
 }
 
 func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
