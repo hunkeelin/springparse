@@ -14,6 +14,7 @@ type kubeInfo struct {
 	App           string `json:"app"`       // App
 	AppType       string `json:"apptype"`   // AppType
 	ContainerName string `json:"containername"`
+	Labels        labels `json:"labels"` // Labels
 }
 
 type labels struct {
@@ -50,10 +51,10 @@ func getkubeInfo(s getkubeInfoInput) error {
 		ContainerName: c.containerName,
 		App:           result.ObjectMeta.Labels["app"],
 		AppType:       result.ObjectMeta.Labels["app.type"],
-	}
-	s.es.Labels = labels{
-		AppName: result.ObjectMeta.Labels["app"],
-		AppType: result.ObjectMeta.Labels["app.type"],
+		Labels: labels{
+			AppName: result.ObjectMeta.Labels["app"],
+			AppType: result.ObjectMeta.Labels["app.type"],
+		},
 	}
 	return nil
 }

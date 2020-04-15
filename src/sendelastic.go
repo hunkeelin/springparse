@@ -20,7 +20,6 @@ type elasticOut struct {
 	RawLog     string    `json:"log"`        // RawLog
 	FileName   string    `json:"filename"`   // FileName
 	KubeInfo   kubeInfo  `json:"kubernetes"` // KubeInfo
-	Labels     labels    `json:"labels"`     // Labels
 }
 
 func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
