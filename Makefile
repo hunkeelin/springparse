@@ -12,7 +12,7 @@ all: test build
 build: 
 		$(GOBUILD) -o $(BINARY_NAME) -v -race
 test: 
-		cd src/ ; $(GOTEST)
+		$(GOTEST)
 clean: 
 		$(GOCLEAN)
 		rm -f $(BINARY_NAME)
