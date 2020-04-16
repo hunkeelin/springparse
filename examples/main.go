@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/hunkeelin/springparse/src"
+	"github.com/hunkeelin/springparse"
 	"time"
 )
 
