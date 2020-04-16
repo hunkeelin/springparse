@@ -6,6 +6,7 @@ require (
 	github.com/aws/aws-sdk-go v1.30.1
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/hunkeelin/SuperCAclient v0.0.0-20190706173239-2739a40f3df4 // indirect
+	github.com/hunkeelin/go-tail v0.0.0-20180509224916-973c153b0431
 	github.com/hunkeelin/klinutils v0.0.0-20200204220100-1eaf13f4b0d3 // indirect
 	github.com/hunkeelin/pki v0.0.0-20190430210513-917229f80225 // indirect
 	github.com/hunkeelin/server v0.0.0-20200321222248-207867df9c40
@@ -20,7 +21,7 @@ require (
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
 	k8s.io/api v0.18.0 // indirect
 	k8s.io/apimachinery v0.18.0
-	k8s.io/client-go v13.0.0
-    k8s.io/klog v1.0.0
+	k8s.io/client-go v12.0.0+incompatible
+	k8s.io/klog v1.0.0
 	k8s.io/utils v0.0.0-20200327001022-6496210b90e8 // indirect
 )
