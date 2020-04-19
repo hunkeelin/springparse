@@ -2,6 +2,7 @@ package springparse
 
 import (
 	"context"
+	"fmt"
 	"github.com/olivere/elastic"
 	log "github.com/sirupsen/logrus"
 )
