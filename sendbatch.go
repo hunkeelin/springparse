@@ -3,6 +3,7 @@ package springparse
 import (
 	"context"
 	"github.com/olivere/elastic"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -63,6 +64,7 @@ func batchSendDo(tosend []elasticItem) error {
 	if err != nil {
 		return err
 	}
+	log.Info("Successuflly send batch")
 	return nil
 	// Clear up the array
 }
