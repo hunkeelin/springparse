@@ -64,7 +64,7 @@ func batchSendDo(tosend []elasticItem) error {
 	if err != nil {
 		return err
 	}
-	log.Info("Successuflly send batch")
+	log.Info("Successuflly send batch", len(tosend))
 	return nil
 	// Clear up the array
 }

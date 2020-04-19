@@ -40,7 +40,7 @@ func (r *Client) ValidateOtherEnv() error {
 		elasticType = "springparse"
 	}
 	if flushCycle == "" {
-		flushCycleInt = 5
+		flushCycleInt = 10
 	} else {
 		var err error
 		flushCycleInt, err = strconv.Atoi(flushCycle)
@@ -49,7 +49,7 @@ func (r *Client) ValidateOtherEnv() error {
 		}
 	}
 	if batchCount == "" {
-		batchCountInt = 100
+		batchCountInt = 250
 	} else {
 		var err error
 		batchCountInt, err = strconv.Atoi(batchCount)
@@ -68,6 +68,6 @@ func (r *Client) ShowConfiguration() {
 	log.Info(fmt.Sprintf("Tailing directory:  %v", logDirectory))
 	log.Info(fmt.Sprintf("Service regex: %v", serviceRegex))
 	log.Info(fmt.Sprintf("Aws Region: %v", awsRegion))
-	log.Info(fmt.Sprintf("Batch count: %v", batchCount))
-	log.Info(fmt.Sprintf("Flush interval: %v", flushCycle))
+	log.Info(fmt.Sprintf("Batch count: %v", batchCountInt))
+	log.Info(fmt.Sprintf("Flush interval: %v", flushCycleInt))
 }
