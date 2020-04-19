@@ -40,7 +40,7 @@ func (r *Client) ValidateOtherEnv() error {
 		elasticType = "springparse"
 	}
 	if flushCycle == "" {
-		flushCycleInt = 10
+		flushCycleInt = 45
 	} else {
 		var err error
 		flushCycleInt, err = strconv.Atoi(flushCycle)
