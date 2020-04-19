@@ -32,6 +32,8 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 				}
 				putSuccess.Inc()
 				tosend = nil
+			} else {
+				log.Info("Not flushing because buffer is nil")
 			}
 		case <-flushSignal:
 			if tosend != nil {
@@ -42,6 +44,8 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 				}
 				putFlushSuccess.Inc()
 				tosend = nil
+			} else {
+				log.Info("Not flushing because buffer is nil time")
 			}
 		}
 	}
@@ -68,6 +72,10 @@ func batchSendDo(tosend []elasticItem) error {
 		return err
 	}
 	log.Info(fmt.Sprintf("Successfully send %v records to elasticsearch", len(tosend)))
+	// purely for debug
+	if len(tosend) == 1 {
+		log.Info("This is the id with length 1 ", tosend[0].id)
+	}
 	return nil
 	// Clear up the array
 }
