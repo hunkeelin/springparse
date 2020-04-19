@@ -25,21 +25,21 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 		case i := <-item:
 			tosend = append(tosend, i)
 			if len(tosend) >= batchCountInt {
+				log.Info(fmt.Sprintf("Flushing %v records via buffer limit", len(tosend)))
 				err := batchSendDo(tosend)
 				if err != nil {
 					panic(err)
 				}
-				log.Info(fmt.Sprintf("Flushing %v records via buffer limit", len(tosend)))
 				putSuccess.Inc()
 				tosend = nil
 			}
 		case <-flushSignal:
 			if tosend != nil {
+				log.Info(fmt.Sprintf("Flushing %v records via time limit", len(tosend)))
 				err := batchSendDo(tosend)
 				if err != nil {
 					panic(err)
 				}
-				log.Info(fmt.Sprintf("Flushing %v records via internal limit", len(tosend)))
 				putFlushSuccess.Inc()
 				tosend = nil
 			}
