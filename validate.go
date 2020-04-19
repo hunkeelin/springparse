@@ -39,6 +39,15 @@ func (r *Client) ValidateOtherEnv() error {
 	if elasticType == "" {
 		elasticType = "springparse"
 	}
+	if flushCycle == "" {
+		flushCycleInt = 5
+	} else {
+		var err error
+		flushCycleInt, err = strconv.Atoi(flushCycle)
+		if err != nil {
+			return err
+		}
+	}
 	if batchCount == "" {
 		batchCountInt = 100
 	} else {
@@ -54,9 +63,11 @@ func (r *Client) ValidateOtherEnv() error {
 // ShowConfiguration shows the environment variables being set
 func (r *Client) ShowConfiguration() {
 	log.Info("Starting springparse with the following configuration")
-	log.Info(fmt.Sprintf("AWS_ELASTICSEARCH_URL: %v", awsElasticSearchURL))
-	log.Info(fmt.Sprintf("LOG_PREFIX: %v", logPrefix))
-	log.Info(fmt.Sprintf("LOG_DIRECTORY:  %v", logDirectory))
-	log.Info(fmt.Sprintf("SERVICE_REGEX: %v", serviceRegex))
-	log.Info(fmt.Sprintf("AWS_REGION: %v", awsRegion))
+	log.Info(fmt.Sprintf("Elasticsearch URL: %v", awsElasticSearchURL))
+	log.Info(fmt.Sprintf("Log prefix: %v", logPrefix))
+	log.Info(fmt.Sprintf("Tailing directory:  %v", logDirectory))
+	log.Info(fmt.Sprintf("Service regex: %v", serviceRegex))
+	log.Info(fmt.Sprintf("Aws Region: %v", awsRegion))
+	log.Info(fmt.Sprintf("Batch count: %v", batchCount))
+	log.Info(fmt.Sprintf("Flush interval: %v", flushCycle))
 }

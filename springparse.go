@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
+	"time"
 )
 
 // Client the struct that runs the program
@@ -43,9 +44,15 @@ func (r *Client) SpringParse() {
 		log.Error("Unable to list directory: " + err.Error())
 		return
 	}
-	stopSig = make(chan bool)
+	flushSig = make(chan bool)
 	sendItems = make(chan elasticItem)
-	go sendBatch(sendItems, stopSig)
+	go sendBatch(sendItems, flushSig)
+	go func() {
+		for {
+			time.Sleep(time.Duration(flushCycleInt) * time.Second)
+			flushSig <- true
+		}
+	}()
 	for _, fi := range logFiles {
 		result := r.shouldWatch(shouldWatchInput{
 			logFile: fi,

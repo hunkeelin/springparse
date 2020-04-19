@@ -9,7 +9,10 @@ import (
 var (
 	awsCredentials      = credentials.NewStaticCredentials(awsAccessKeyId, awsSecretAccessKey, awsSessionToken)
 	serviceRegexList    = strings.Split(serviceRegex, ",")
+	batchCount          = os.Getenv("BATCH_COUNT")
 	batchCountInt       int
+	flushCycle          = os.Getenv("FLUSH_CYCLE")
+	flushCycleInt       int
 	awsAccessKeyId      = os.Getenv("AWS_ACCESS_KEY_ID")
 	awsSecretAccessKey  = os.Getenv("AWS_SECRET_ACCESS_KEY")
 	awsSessionToken     = os.Getenv("AWS_SESSION_TOKEN")
@@ -21,6 +24,5 @@ var (
 	logDirectory        = os.Getenv("LOG_DIRECTORY")
 	serviceRegex        = os.Getenv("SERVICE_REGEX")
 	awsRegion           = os.Getenv("AWS_REGION")
-	batchCount          = os.Getenv("BATCH_COUNT")
 	elasticType         = os.Getenv("ELASTIC_TYPE")
 )
