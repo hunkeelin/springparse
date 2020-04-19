@@ -4,6 +4,7 @@ import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"net/url"
+	"strconv"
 )
 
 // ValidateAwsEnv validates all aws related configration and set defaults from environment variables
@@ -34,6 +35,18 @@ func (r *Client) ValidateOtherEnv() error {
 	}
 	if hostPort == "" {
 		hostPort = "8080"
+	}
+	if elasticType == "" {
+		elasticType = "springparse"
+	}
+	if batchCount == "" {
+		batchCountInt = 100
+	} else {
+		var err error
+		batchCountInt, err = strconv.Atoi(batchCount)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

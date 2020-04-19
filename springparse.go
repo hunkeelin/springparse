@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sync"
 )
 
 // Client the struct that runs the program
@@ -24,8 +25,15 @@ func New() *Client {
 
 // Runner Runner spawn by go routine
 type Runner struct {
-	Buffer   *elasticOut
-	BufferId string
+	Buffer       *elasticOut
+	BufferId     string
+	sendbuffer   []elasticOutInfo
+	sendbufferMu sync.Mutex
+	bufferCount  int
+}
+type elasticOutInfo struct {
+	record *elasticOut
+	id     string
 }
 
 // SpringParse This is the main program
@@ -35,6 +43,9 @@ func (r *Client) SpringParse() {
 		log.Error("Unable to list directory: " + err.Error())
 		return
 	}
+	stopSig = make(chan bool)
+	sendItems = make(chan elasticItem)
+	go sendBatch(sendItems, stopSig)
 	for _, fi := range logFiles {
 		result := r.shouldWatch(shouldWatchInput{
 			logFile: fi,

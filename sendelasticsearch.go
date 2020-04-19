@@ -1,7 +1,6 @@
 package springparse
 
 import (
-	"context"
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"time"
@@ -53,24 +52,13 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 		return nil
 	}
 
-	// Check if buffer is empty, if empty means this is the first log
+	// Sending it to bulk
 	rDate := fmt.Sprintf(time.Now().UTC().Format("2006-01-02"))
-	client, err := newElasticClient(awsCredentials)
-	if err != nil {
-		return err
+	sendItems <- elasticItem{
+		index:    logPrefix + "-" + rDate,
+		id:       r.BufferId,
+		bodyJson: *r.Buffer,
 	}
-	ctx := context.Background()
-	put, err := client.Index().
-		Index(logPrefix + "-" + rDate).
-		Type("springparse").
-		Id(r.BufferId).
-		BodyJson(r.Buffer).
-		Do(ctx)
-	if err != nil {
-		return fmt.Errorf("Unable to send index %v", err)
-	}
-	log.Info(fmt.Sprintf("Index %s created with id %v", put.Index, put.Id))
-	putSuccess.Inc()
 	r.Buffer = &out.content
 	r.BufferId = out.id
 	return nil
