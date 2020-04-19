@@ -19,6 +19,9 @@ type Client struct {
 // New creates a client struct with map initialized
 func New() *Client {
 	m := make(map[string]int)
+	flushSig = make(chan bool)
+	sendItems = make(chan elasticItem)
+	go sendBatch(sendItems, flushSig)
 	return &Client{
 		tailedFiles: m,
 	}
@@ -44,9 +47,6 @@ func (r *Client) SpringParse() {
 		log.Error("Unable to list directory: " + err.Error())
 		return
 	}
-	flushSig = make(chan bool)
-	sendItems = make(chan elasticItem)
-	go sendBatch(sendItems, flushSig)
 	go func() {
 		for {
 			time.Sleep(time.Duration(flushCycleInt) * time.Second)
