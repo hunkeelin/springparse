@@ -1,7 +1,7 @@
 # SpringParse
 [![CircleCI](https://circleci.com/gh/hunkeelin/springparse.svg?style=shield)](https://circleci.com/gh/hunkeelin/springparse)
 [![Go Report Card](https://goreportcard.com/badge/github.com/hunkeelin/springparse)](https://goreportcard.com/report/github.com/hunkeelin/springparse)
-[![GoDoc](https://godoc.org/github.com/hunkeelin/springparse/src?status.svg)](https://godoc.org/github.com/hunkeelin/springparse/src)
+[![GoDoc](https://godoc.org/github.com/hunkeelin/springparse?status.svg)](https://godoc.org/github.com/hunkeelin/springparse)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hunkeelin/springparse/master/LICENSE)
 
 
@@ -16,7 +16,7 @@ As of now, we can use fluentd daemonset to have a pod on every eks node. Mount t
 ```
 
 ## Usage
-For details on setting environment variables and configurations please refer to [documentation](src/README.md)
+For details on setting environment variables and configurations please refer to [documentation](MANUAL.md)
 
 ## [Example](examples/main.go)
 

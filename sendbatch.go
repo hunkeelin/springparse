@@ -28,7 +28,7 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 				if err != nil {
 					panic(err)
 				}
-				log.Info("Flushing via buffer overload", len(tosend))
+				log.Info(fmt.Sprintf("Flushing %v records via buffer limit", len(tosend)))
 				putSuccess.Inc()
 				tosend = nil
 			}
@@ -38,7 +38,7 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 				if err != nil {
 					panic(err)
 				}
-				log.Info("Flushing via internval", len(tosend))
+				log.Info(fmt.Sprintf("Flushing %v records via internal limit", len(tosend)))
 				putFlushSuccess.Inc()
 				tosend = nil
 			}
@@ -66,7 +66,7 @@ func batchSendDo(tosend []elasticItem) error {
 	if err != nil {
 		return err
 	}
-	log.Info("Successuflly send batch", len(tosend))
+	log.Info(fmt.Sprintf("Successfully send %v records to elasticsearch", len(tosend)))
 	return nil
 	// Clear up the array
 }
