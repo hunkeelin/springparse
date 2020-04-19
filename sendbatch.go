@@ -28,6 +28,7 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 				if err != nil {
 					panic(err)
 				}
+				log.Info("Flushing via buffer overload", len(tosend))
 				putSuccess.Inc()
 				tosend = nil
 			}
@@ -37,6 +38,7 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 				if err != nil {
 					panic(err)
 				}
+				log.Info("Flushing via internval", len(tosend))
 				putFlushSuccess.Inc()
 				tosend = nil
 			}
