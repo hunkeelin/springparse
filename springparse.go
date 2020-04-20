@@ -2,6 +2,7 @@ package springparse
 
 import (
 	"bytes"
+	"github.com/fsnotify/fsnotify"
 	"github.com/hunkeelin/go-tail/follower"
 	log "github.com/sirupsen/logrus"
 	"io"
@@ -50,7 +51,6 @@ func (r *Client) SpringParse() {
 	go func() {
 		for {
 			time.Sleep(time.Duration(flushCycleInt) * time.Second)
-			log.Info("Flushing buffer")
 			flushSig <- true
 		}
 	}()
@@ -66,6 +66,7 @@ func (r *Client) SpringParse() {
 			go newRunner.tailFile(fi)
 		}
 	}
+	go r.tailDir()
 	return
 }
 
@@ -108,4 +109,37 @@ func (r *Client) listDirectory() ([]string, error) {
 		return files, err
 	}
 	return files, nil
+}
+func (r *Client) tailDir() {
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		panic(err)
+	}
+	defer watcher.Close()
+	err = watcher.Add(logDirectory)
+	if err != nil {
+		panic(err)
+	}
+	errCh := make(chan error)
+	for {
+		select {
+		case event := <-watcher.Events:
+			if event.Op&fsnotify.Create == fsnotify.Create {
+				log.Info("Newly created file: ", event.Name)
+				result := r.shouldWatch(shouldWatchInput{
+					logFile: event.Name,
+				})
+				_, ok := r.tailedFiles[event.Name]
+				if result.watch && !ok {
+					log.Info("Newly created, tailing " + event.Name)
+					r.tailedFiles[event.Name] = 0
+					newRunner := Runner{}
+					go newRunner.tailFile(event.Name)
+				}
+			}
+		case err := <-watcher.Errors:
+			errCh <- err
+		}
+	}
+	<-errCh
 }

@@ -46,7 +46,6 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 		return err
 	}
 	if r.Buffer == nil {
-		log.Info("Sending current log to buffer")
 		r.Buffer = &out.content
 		r.BufferId = out.id
 		return nil
