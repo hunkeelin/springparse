@@ -3,6 +3,7 @@ package springparse
 import (
 	"context"
 	"github.com/olivere/elastic"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -59,9 +60,13 @@ func batchSendDo(tosend []elasticItem) error {
 		bulkRequest = bulkRequest.Add(tmpRequest)
 	}
 	// Successfully populate bulk request now sending it to elasticSearch
+	log.Info("Sending batch this should usually be time cycle(45 seconds) apart")
 	_, err = bulkRequest.Do(ctx)
 	if err != nil {
 		return err
+	}
+	if len(tosend) == 1 {
+		log.Debug("This is the id with length 1 investigate ", tosend[0].id)
 	}
 	return nil
 	// Clear up the array
