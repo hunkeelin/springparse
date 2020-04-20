@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/hunkeelin/springparse"
-	"time"
 )
 
 func main() {
