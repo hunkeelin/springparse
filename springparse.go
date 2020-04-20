@@ -125,13 +125,12 @@ func (r *Client) tailDir() {
 		select {
 		case event := <-watcher.Events:
 			if event.Op&fsnotify.Create == fsnotify.Create {
-				log.Info("Newly created file: ", event.Name)
 				result := r.shouldWatch(shouldWatchInput{
 					logFile: event.Name,
 				})
 				_, ok := r.tailedFiles[event.Name]
 				if result.watch && !ok {
-					log.Info("Newly created, tailing " + event.Name)
+					log.Info("Newly tailed file " + event.Name)
 					r.tailedFiles[event.Name] = 0
 					newRunner := Runner{}
 					go newRunner.tailFile(event.Name)
