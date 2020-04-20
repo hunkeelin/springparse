@@ -16,14 +16,10 @@ func main() {
 		panic(err)
 	}
 	r.ShowConfiguration()
-	go func() {
-		for {
-			r.SpringParse()
-			time.Sleep(3 * time.Second)
-		}
-	}()
-	err = r.Server()
-	if err != nil {
-		panic(err)
+	// host the metric server
+	go r.Server()
+	for {
+		r.SpringParse()
+		time.Sleep(3 * time.Second)
 	}
 }
