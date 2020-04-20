@@ -50,6 +50,7 @@ func (r *Client) SpringParse() {
 	go func() {
 		for {
 			time.Sleep(time.Duration(flushCycleInt) * time.Second)
+			log.Info("Flushing buffer")
 			flushSig <- true
 		}
 	}()

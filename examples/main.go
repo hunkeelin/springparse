@@ -17,9 +17,9 @@ func main() {
 	}
 	r.ShowConfiguration()
 	// host the metric server
-	go r.Server()
-	for {
-		r.SpringParse()
-		time.Sleep(3 * time.Second)
+	r.SpringParse()
+	err = r.Server()
+	if err != nil {
+		panic(err)
 	}
 }

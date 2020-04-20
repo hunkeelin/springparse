@@ -65,8 +65,6 @@ func batchSendDo(tosend []elasticItem) error {
 	if err != nil {
 		return err
 	}
-	log.Info(fmt.Sprintf("Successfully send %v records to elasticsearch", len(tosend)))
-	// purely for debug
 	return nil
 	// Clear up the array
 }
