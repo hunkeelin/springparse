@@ -66,9 +66,6 @@ func batchSendDo(tosend []elasticItem) error {
 		return err
 	}
 	log.Info(fmt.Sprintf("Sending batch, this should usually be %v apart, unless current length %v == %v. %v got indexed", flushCycleInt, len(tosend), batchCountInt, len(bulkDo.Items)))
-	if len(tosend) == 1 {
-		log.Info("This is the id with length 1 investigate ", tosend[0].id)
-	}
 	return nil
 	// Clear up the array
 }
