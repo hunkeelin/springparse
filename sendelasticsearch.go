@@ -34,7 +34,7 @@ func (r *Runner) sendElasticSearch(s sendElasticSearchInput) error {
 			r.Buffer.RawLog = r.Buffer.RawLog + "\n" + out.content.RawLog
 		} else {
 			// Ignoring that part of the log
-			log.Info("It seems this part of the log is part of a stacktrace before springparse start tailing")
+			log.Info(fmt.Sprintf("It seems %v isn't a springboot log", s.fileName))
 		}
 		return nil
 	}
