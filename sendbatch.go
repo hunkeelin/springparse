@@ -66,7 +66,7 @@ func batchSendDo(tosend []elasticItem) error {
 		return err
 	}
 	if len(tosend) == 1 {
-		log.Debug("This is the id with length 1 investigate ", tosend[0].id)
+		log.Info("This is the id with length 1 investigate ", tosend[0].id)
 	}
 	return nil
 	// Clear up the array
