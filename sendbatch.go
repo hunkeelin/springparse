@@ -1,6 +1,7 @@
 package springparse
 
 import (
+	"context"
 	"fmt"
 	"github.com/olivere/elastic"
 	log "github.com/sirupsen/logrus"
@@ -45,10 +46,12 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 }
 
 func batchSendDo(tosend []elasticItem) error {
-	if len(tosend) < 1 {
-		// nothing to send
-		return nil
+	esClient, err := newElasticClient(awsCredentials)
+	if err != nil {
+		return err
 	}
+	ctx := context.Background()
+	bulkRequest := esClient.Bulk()
 	for _, i := range tosend {
 		tmpRequest := elastic.NewBulkIndexRequest().
 			Index(i.index).
@@ -63,6 +66,11 @@ func batchSendDo(tosend []elasticItem) error {
 		return err
 	}
 	log.Info(fmt.Sprintf("Sending batch, this should usually be %v apart, unless current length %v == %v. %v got indexed", flushCycleInt, len(tosend), batchCountInt, len(bulkDo.Items)))
+	bulkDo, err = bulkRequest.Do(ctx)
+	if err != nil {
+		return err
+	}
+	log.Info("This should be zero ", len(bulkDo.Items))
 	return nil
 	// Clear up the array
 }

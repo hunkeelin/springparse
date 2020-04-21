@@ -16,8 +16,6 @@ func main() {
 	}
 	r.ShowConfiguration()
 	// host the metric server
-	//initialize the elasticsearch client
-	r.InitElastic()
 	r.SpringParse()
 	err = r.Server()
 	if err != nil {

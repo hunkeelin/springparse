@@ -2,7 +2,6 @@ package springparse
 
 import (
 	"bytes"
-	"context"
 	"github.com/fsnotify/fsnotify"
 	"github.com/hunkeelin/go-tail/follower"
 	log "github.com/sirupsen/logrus"
@@ -27,14 +26,6 @@ func New() *Client {
 	return &Client{
 		tailedFiles: m,
 	}
-}
-func (c *Client) InitElastic() {
-	esClient, err := newElasticClient(awsCredentials)
-	if err != nil {
-		panic(err)
-	}
-	ctx = context.Background()
-	bulkRequest = esClient.Bulk()
 }
 
 // Runner Runner spawn by go routine

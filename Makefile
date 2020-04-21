@@ -10,7 +10,7 @@ BINARY_UNIX=$(BINARY_NAME)_unix
 all: test build
 
 build: 
-		$(GOBUILD) -o $(BINARY_NAME) -v -race
+		$(GOBUILD) -o $(BINARY_NAME) -v -race examples/main.go
 test: 
 		$(GOTEST)
 clean: 

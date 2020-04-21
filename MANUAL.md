@@ -12,7 +12,7 @@ Configurations are set during startup.
 * `LOG_DIRECTORY`: The logs directory the software listens to. (required) If you mount the volumne to `/var/log/` it would be `/var/log/containers`.
 * `SERVICE_REGEX`: The regex of the log you want `springparse` to listen to. E.g `foo&bar, aaa&bbb` means any log file that matches the regex `*foo*bar*` or `*aaa*bbb*` you can add `!` for `not` in regex as well. (required)
 * `BATCH_COUNT`: The limit of batch requests before its send to elasticsearch (Default: 250)
-* `FLUSH_CYCLE`: The time limit before it flushes the request to elasticsearch (Default: 45 seconds)
+* `FLUSH_CYCLE`: The time limit before it flushes the request to elasticsearch (Default: 65 seconds)
 
 
 ## prometheus metrics
