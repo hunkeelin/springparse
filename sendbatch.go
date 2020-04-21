@@ -60,7 +60,7 @@ func batchSendDo(tosend []elasticItem) error {
 		bulkRequest = bulkRequest.Add(tmpRequest)
 	}
 	// Successfully populate bulk request now sending it to elasticSearch
-	log.Info("Sending batch this should usually be time cycle(45 seconds) apart")
+	log.Info("Sending batch this should usually be time cycle(45 seconds) apart unless length is at limit ", len(tosend))
 	_, err = bulkRequest.Do(ctx)
 	if err != nil {
 		return err
