@@ -1,11 +1,18 @@
 package springparse
 
 import (
+	"context"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/signer/v4"
 	"github.com/olivere/elastic"
 	"github.com/sha1sum/aws_signing_client"
+)
+
+var (
+	esClient    *elastic.Client
+	ctx         context.Context
+	bulkRequest *elastic.BulkService
 )
 
 func newElasticClient(awsCredentials *credentials.Credentials) (*elastic.Client, error) {
