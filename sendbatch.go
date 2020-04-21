@@ -61,11 +61,11 @@ func batchSendDo(tosend []elasticItem) error {
 		bulkRequest = bulkRequest.Add(tmpRequest)
 	}
 	// Successfully populate bulk request now sending it to elasticSearch
-	log.Info(fmt.Sprintf("Sending batch, this should usually be %v apart, unless current length %v == %v", flushCycleInt, len(tosend), batchCountInt))
-	_, err = bulkRequest.Do(ctx)
+	bulkDo, err := bulkRequest.Do(ctx)
 	if err != nil {
 		return err
 	}
+	log.Info(fmt.Sprintf("Sending batch, this should usually be %v apart, unless current length %v == %v. %v got indexed", flushCycleInt, len(tosend), batchCountInt, len(bulkDo.Items)))
 	if len(tosend) == 1 {
 		log.Info("This is the id with length 1 investigate ", tosend[0].id)
 	}
