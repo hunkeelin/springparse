@@ -46,6 +46,10 @@ func sendBatch(item <-chan elasticItem, flushSignal <-chan bool) {
 }
 
 func batchSendDo(tosend []elasticItem) error {
+	if len(tosend) < 1 {
+		log.Info("Nothing to send")
+		return nil
+	}
 	esClient, err := newElasticClient(awsCredentials)
 	if err != nil {
 		return err
@@ -66,11 +70,6 @@ func batchSendDo(tosend []elasticItem) error {
 		return err
 	}
 	log.Info(fmt.Sprintf("Sending batch, this should usually be %v apart, unless current length %v == %v. %v got indexed", flushCycleInt, len(tosend), batchCountInt, len(bulkDo.Items)))
-	bulkDo, err = bulkRequest.Do(ctx)
-	if err != nil {
-		return err
-	}
-	log.Info("This should be zero ", len(bulkDo.Items))
 	return nil
 	// Clear up the array
 }
