@@ -15,6 +15,7 @@ As of now, we can use fluentd daemonset to have a pod on every eks node. Mount t
 }
 ```
 
+
 ## Usage
 For details on setting environment variables and configurations please refer to [documentation](MANUAL.md)
 
